@@ -29,15 +29,6 @@ url = 'https://terralogic.paxanimi.ai/login'
 with open('info.txt', 'r', encoding= 'UTF-8') as file:
     info = file.read()
 login_info = info.split()
-    
-class HRMS():
-    def __init__(self):
-        self.url = url
-    def get_url(self,url : str):
-        url = "https://"+ self.url
-        driver.get(url)
-        WebDriverWait.wait(
-        print("get URL : Done")
 
 #find login button
 WebDriverWait(driver,20).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Terralogic Login']"))).click()
