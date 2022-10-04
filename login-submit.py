@@ -1,16 +1,27 @@
 import pandas as pd
-
 from selenium import webdriver
-from selenium.webdriver import ChromeOptions
-from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import chromedriver_autoinstaller
-
+import logging 
+######################################################
+chrome_options = Options()
+#chrome_options.add_argument("--incognito")
+chrome_options.add_argument("--disable-popup-blocking") 
+chrome_options.add_argument("--disable-extensions")
+#chrome_options.add_argument("--headless")
+chrome_options.add_argument("--start-maximized")
+chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
+###########################################################
+logging.basicConfig(filename='HRMS_logging.log',format= '%(asctime)s : %(levelname)s :\
+ %(lineno)s : %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+#########################################################
+chrome_options.page_load_strategy = 'normal' 
+driver = webdriver.Chrome(options=chrome_options)
 data = pd.read_csv('TimeSheet.csv')
 week = 0
-
 chromedriver_autoinstaller.install()
 driver = webdriver.Chrome()
 
@@ -19,7 +30,14 @@ with open('info.txt', 'r', encoding= 'UTF-8') as file:
     info = file.read()
 login_info = info.split()
     
-driver.get(url)
+class HRMS():
+    def __init__(self):
+        self.url = url
+    def get_url(self,url : str):
+        url = "https://"+ self.url
+        driver.get(url)
+        WebDriverWait.wait(
+        print("get URL : Done")
 
 #find login button
 WebDriverWait(driver,20).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Terralogic Login']"))).click()
