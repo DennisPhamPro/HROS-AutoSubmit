@@ -12,7 +12,7 @@ import pathlib
 chromedriver_autoinstaller.install()
 ##########################################################
 script_directory = pathlib.Path().absolute()
-path = script_directory + "/log/" + str(datetime.now().strftime('%Y_%M_%d_%H_%M_%S')) + ".log"
+path = str(script_directory) + "/log/" + str(datetime.now().strftime('%Y_%M_%d_%H_%M_%S')) + ".log"
 log = Log(path)
 ########################################################
 class HRMS:

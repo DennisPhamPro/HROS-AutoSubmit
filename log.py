@@ -2,12 +2,12 @@ import logging
 from config import log_config
 from logging import config
 
-config.dictConfig(log_config)
-
 class Log:
     def __init__(self, path) -> None:
+        log_config["handlers"]["file"]["filename"] = path
+        config.dictConfig(log_config)
         self._log = logging.getLogger("log-submit")
-        self._log["handlers"]["file"]["filename"] = path
+        # self._log["handlers"]["file"]["filename"] = path
 
     def Write_Debug(self, s: str):
         self._log.debug(s)
