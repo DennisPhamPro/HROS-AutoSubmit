@@ -3,7 +3,7 @@ from config import chrome_options
 import time
 # import logging 
 ##################################
-from HRMS import HRMS
+from HRMS import Timesheet
 ################################
 
 url = 'terralogic.paxanimi.ai/login'
@@ -15,8 +15,10 @@ with open('info.txt', 'r', encoding= 'UTF-8') as file:
     info = file.read()
 login_info = info.split()
 #################################
-session = HRMS(chrome_options)
+session = Timesheet(chrome_options)
 session.get_url(url)
-print("Get URL DONE")
 session.login(login_info)
 time.sleep(10)
+session.timesheet(data)
+time.sleep(30)
+
