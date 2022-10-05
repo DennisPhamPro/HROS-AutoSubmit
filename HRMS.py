@@ -19,32 +19,56 @@ class HRMS:
         self._driver = webdriver.Chrome(options=chrome_options)
 
     def get_url(self, url : str):
-        self.url = "https://"+ url
-        self._driver.get(self.url)
-        self._driver.implicitly_wait(5)
-        log.Write_Info("Done get URL")
+        try:
+            self.url = "https://"+ url
+            log.Write_Info("Try navagating to {}...".format(self.url))
+            self._driver.get(self.url)
+            self._driver.implicitly_wait(5)
+            log.Write_Info("Done get URL")
+        except Exception as e:
+            log.Write_Error("Cannot navigate to {} (maybe URL is not valid). Error detail is as below.".format(self.url))
+            log.Write_Error("Error Type : {}, Error Message : {}".format(type(e).__name__, e))
+
         
     def login(self, login_info):
-        #find login button
-        WebDriverWait(self._driver,20).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Terralogic Login']"))).click()
+        try:
+            #find login button
+            WebDriverWait(self._driver,20).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Terralogic Login']"))).click()
+        except Exception as e:
+            log.Write_Error("Cannot click onto login button. Error detail is as below.")
+            log.Write_Error("Error Type : {}, Error Message : {}".format(type(e).__name__, e))
 
-        #enter email
-        email_input = WebDriverWait(self._driver,20).until(EC.element_to_be_clickable((By.ID, "identifierId")))
-        email_input.send_keys(login_info[0])
-        email_input.send_keys(Keys.ENTER)
+        try:
+            log.Write_Info("Try logging to HROS by TL account.")    
+            #enter email
+            email_input = WebDriverWait(self._driver,20).until(EC.element_to_be_clickable((By.ID, "identifierId")))
+            email_input.send_keys(login_info[0])
+            email_input.send_keys(Keys.ENTER)
+        except Exception as e:
+            log.Write_Error("Cannot type email. Error detail is as below.")
+            log.Write_Error("Error Type : {}, Error Message : {}".format(type(e).__name__, e))
 
-        #enter password
-        pw_input = WebDriverWait(self._driver,20).until(EC.element_to_be_clickable((By.NAME, "password")))
-        pw_input.send_keys(login_info[1])
-        pw_input.send_keys(Keys.ENTER)
-        log.Write_Info("Done logging")
+        try:
+            #enter password
+            pw_input = WebDriverWait(self._driver,20).until(EC.element_to_be_clickable((By.NAME, "password")))
+            pw_input.send_keys(login_info[1])
+            pw_input.send_keys(Keys.ENTER)
+        except Exception as e:
+            log.Write_Error("Cannot type password (Wrong email or xpath not found). Error detail is as below.")
+            log.Write_Error("Error Type : {}, Error Message : {}".format(type(e).__name__, e))
+
+        try:
+            WebDriverWait(self._driver, 10).until(EC.presence_of_element_located((By.XPATH, "//img[@alt='logo']")))
+            log.Write_Info("Done logging")
+        except:
+            log.Write_Error("Cannot logging to HROS. Wrong password.")
+            
 
 class Timesheet(HRMS):
     def __init__(self, chrome_options):
         super().__init__(chrome_options)
 
     def timesheet(self):
-        week = 0
         #nav and click timesheet
         WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//span[contains(@class,'content')]//a[contains(@href,'sheet')]"))).click()
         WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH,"//div[contains(@class,'AppFooter')]"))).click()   
@@ -89,3 +113,12 @@ class Timesheet(HRMS):
         #click close
         WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@class='ant-btn ant-btn-link']/span"))).click()
         log.Write_Info("Your TimeSheet have been submitted")
+
+    def delete_add(self, date: str):
+        """date_format: YY-MM-DD"""
+        #Try click on 
+        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//input[@placeholder='Select date']"))).click()
+        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//td[@title='{}']".format(date)))).click()
+
+        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//img[3]"))).click()
+        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))).click()
