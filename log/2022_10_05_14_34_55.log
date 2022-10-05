@@ -1,0 +1,27 @@
+05-10-2022 14:34:56 : INFO : log-submit : Write_Info : 20 : Try navagating to https://terralogic.paxanimi.ai/login...
+05-10-2022 14:35:14 : INFO : log-submit : Write_Info : 20 : Done get URL
+05-10-2022 14:35:16 : INFO : log-submit : Write_Info : 20 : Try logging to HROS by TL account.
+05-10-2022 14:35:38 : ERROR : log-submit : Write_Error : 26 : Cannot type password (Wrong email or xpath not found). Error detail is as below.
+05-10-2022 14:35:38 : ERROR : log-submit : Write_Error : 26 : Error Type : TimeoutException, Error Message : Message: 
+Stacktrace:
+#0 0x55cf410b5343 <unknown>
+#1 0x55cf40ebf54a <unknown>
+#2 0x55cf40ef8695 <unknown>
+#3 0x55cf40ef8871 <unknown>
+#4 0x55cf40f30a24 <unknown>
+#5 0x55cf40f16c7d <unknown>
+#6 0x55cf40f2e760 <unknown>
+#7 0x55cf40f16a73 <unknown>
+#8 0x55cf40eeb4f3 <unknown>
+#9 0x55cf40eec731 <unknown>
+#10 0x55cf4110362e <unknown>
+#11 0x55cf41106ac2 <unknown>
+#12 0x55cf410e9f4e <unknown>
+#13 0x55cf41107743 <unknown>
+#14 0x55cf410de36f <unknown>
+#15 0x55cf41127a28 <unknown>
+#16 0x55cf41127ba6 <unknown>
+#17 0x55cf41141d52 <unknown>
+#18 0x7fc9573c6b43 <unknown>
+
+05-10-2022 14:35:49 : ERROR : log-submit : Write_Error : 26 : Cannot logging to HROS. Wrong password.

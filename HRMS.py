@@ -7,21 +7,23 @@ import chromedriver_autoinstaller
 from log import Log
 import pathlib
 
-######################################################
+##########################################################
 chromedriver_autoinstaller.install()
 ##########################################################
 script_directory = pathlib.Path().absolute()
 path = str(script_directory) + "/log/" #Enter your path log here
 log = Log(path)
-########################################################
+##########################################################
 class HRMS:
+    '''General funcionality for HR-OS'''
+
     def __init__(self, chrome_options):
         self._driver = webdriver.Chrome(options=chrome_options)
 
     def get_url(self, url : str):
         try:
             self.url = "https://"+ url
-            log.Write_Info("Try navagating to {}...".format(self.url))
+            log.Write_Info("Navigating to {}...".format(self.url))
             self._driver.get(self.url)
             self._driver.implicitly_wait(5)
             log.Write_Info("Done get URL")
@@ -29,7 +31,6 @@ class HRMS:
             log.Write_Error("Cannot navigate to {} (maybe URL is not valid). Error detail is as below.".format(self.url))
             log.Write_Error("Error Type : {}, Error Message : {}".format(type(e).__name__, e))
 
-        
     def login(self, login_info):
         try:
             #find login button
@@ -61,10 +62,11 @@ class HRMS:
             WebDriverWait(self._driver, 10).until(EC.presence_of_element_located((By.XPATH, "//img[@alt='logo']")))
             log.Write_Info("Done logging")
         except:
-            log.Write_Error("Cannot logging to HROS. Wrong password.")
+            log.Write_Error("Cannot login to HROS. Wrong password.")
             
 
 class Timesheet(HRMS):
+    '''Timesheet functionality : Tasks, submissions,...'''
     def __init__(self, chrome_options):
         super().__init__(chrome_options)
 
@@ -122,3 +124,4 @@ class Timesheet(HRMS):
 
         WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//img[3]"))).click()
         WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))).click()
+        log.Write_Info("Submission deleted")

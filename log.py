@@ -8,7 +8,7 @@ class Log:
     def __init__(self, path: str) -> None:
         if not os.path.exists(path):
             os.makedirs(path)
-        log_config["handlers"]["file"]["filename"] = path + str(datetime.now().strftime('%Y_%m_%d_%H_%M_%S')) + ".log"
+        log_config["handlers"]["file"]["filename"] = path + str(datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%P')) + ".log"
         config.dictConfig(log_config)
         self._log = logging.getLogger("log-submit")
         # self._log["handlers"]["file"]["filename"] = path
