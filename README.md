@@ -4,4 +4,4 @@
 1. Your email
 2. Your password
 
-## You can edit and access you data in any type (.csv, .json)
+## You can edit and access data in any type (.csv, .json)
