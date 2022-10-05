@@ -32,17 +32,10 @@ log_config = {
             # "filters": ["above_info"],
             "class": "logging.FileHandler",
             "level": "DEBUG",
+            "filename": "",
             # "filename": ("all_messages" + str(datetime.now().strftime('%Y_%M_%d_%H_%M_%S')) + ".log"), #file path (can use os to get true path)
             "mode": "w" #set filemode
         }, 
-        "logger":{
-            "formatter": "std_out2",
-            "filters": ["above_info"],
-            "class": "logging.FileHandler",
-            "level": "INFO",
-            # "filename":(__name__ + str(datetime.now().strftime('%Y_%M_%d_%H_%M_%S')) + ".log"),
-            "mode": "w"
-        },
     },
     "formatters":{
         "std_out": {
