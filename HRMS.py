@@ -8,14 +8,16 @@ import chromedriver_autoinstaller
 from log import Log
 import pathlib
 
-######################################################
+##########################################################
 chromedriver_autoinstaller.install()
 ##########################################################
 script_directory = pathlib.Path().absolute()
 path = str(script_directory) + "/log/" #Enter your path log here
 log = Log(path)
-########################################################
+##########################################################
 class HRMS:
+    '''General funcionality for HR-OS'''
+
     def __init__(self, chrome_options):
         self.driver = webdriver.Chrome(options=chrome_options)
 
@@ -29,7 +31,6 @@ class HRMS:
             log.Write_Error("Cannot navigate to {} (maybe URL is not valid). Error detail is as below.".format(self.url))
             raise Exception("Something go wrong. Stop program now.")
 
-        
     def login(self, login_info):
         try:
             #find login button
@@ -70,6 +71,7 @@ class HRMS:
             
 
 class Timesheet(HRMS):
+    '''Timesheet functionality : Tasks, submissions,...'''
     def __init__(self, chrome_options):
         super().__init__(chrome_options)
 
