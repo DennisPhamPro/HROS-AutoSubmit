@@ -22,7 +22,7 @@ class HRMS:
     def get_url(self, url : str):
         try:
             self.url = "https://"+ url
-            log.Write_Info("Try navagating to {}...".format(self.url))
+            log.Write_Info("Try navigating to {}...".format(self.url))
             self.driver.get(self.url)
             log.Write_Info("Done get URL")
         except:
