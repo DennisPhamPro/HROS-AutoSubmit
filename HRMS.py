@@ -1,3 +1,4 @@
+from typing import Optional
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
@@ -16,109 +17,166 @@ log = Log(path)
 ########################################################
 class HRMS:
     def __init__(self, chrome_options):
-        self._driver = webdriver.Chrome(options=chrome_options)
+        self.__driver = webdriver.Chrome(options=chrome_options)
 
     def get_url(self, url : str):
         try:
             self.url = "https://"+ url
             log.Write_Info("Try navagating to {}...".format(self.url))
-            self._driver.get(self.url)
-            self._driver.implicitly_wait(5)
+            self.__driver.get(self.url)
             log.Write_Info("Done get URL")
-        except Exception as e:
+        except:
             log.Write_Error("Cannot navigate to {} (maybe URL is not valid). Error detail is as below.".format(self.url))
-            log.Write_Error("Error Type : {}, Error Message : {}".format(type(e).__name__, e))
+            raise Exception("Something go wrong. Stop program now.")
 
         
     def login(self, login_info):
         try:
             #find login button
-            WebDriverWait(self._driver,20).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Terralogic Login']"))).click()
-        except Exception as e:
-            log.Write_Error("Cannot click onto login button. Error detail is as below.")
-            log.Write_Error("Error Type : {}, Error Message : {}".format(type(e).__name__, e))
+            WebDriverWait(self.__driver,20).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Terralogic Login']"))).click()
+        except:
+            log.Write_Error("Cannot click on login button.")
+            raise Exception("Something go wrong. Stop program now.")
 
         try:
-            log.Write_Info("Try logging to HROS by TL account.")    
+            log.Write_Info("Try logging to HROS by TL account.")
+            log.Write_Info("Typing your email!")    
             #enter email
-            email_input = WebDriverWait(self._driver,20).until(EC.element_to_be_clickable((By.ID, "identifierId")))
+            email_input = WebDriverWait(self.__driver,20).until(EC.element_to_be_clickable((By.ID, "identifierId")))
             email_input.send_keys(login_info[0])
             email_input.send_keys(Keys.ENTER)
-        except Exception as e:
-            log.Write_Error("Cannot type email. Error detail is as below.")
-            log.Write_Error("Error Type : {}, Error Message : {}".format(type(e).__name__, e))
+            log.Write_Info("Done!")
+        except:
+            log.Write_Error("Cannot type email (selector error). Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
 
         try:
             #enter password
-            pw_input = WebDriverWait(self._driver,20).until(EC.element_to_be_clickable((By.NAME, "password")))
+            log.Write_Info("Typing your password!")    
+            pw_input = WebDriverWait(self.__driver,20).until(EC.element_to_be_clickable((By.NAME, "password")))
             pw_input.send_keys(login_info[1])
             pw_input.send_keys(Keys.ENTER)
-        except Exception as e:
-            log.Write_Error("Cannot type password (Wrong email or xpath not found). Error detail is as below.")
-            log.Write_Error("Error Type : {}, Error Message : {}".format(type(e).__name__, e))
+            log.Write_Info("Done!")
+        except:
+            log.Write_Error("Cannot type password (Wrong email or selector error). Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
 
         try:
-            WebDriverWait(self._driver, 10).until(EC.presence_of_element_located((By.XPATH, "//img[@alt='logo']")))
-            log.Write_Info("Done logging")
+            WebDriverWait(self.__driver, 20).until(EC.presence_of_element_located((By.XPATH, "//img[@alt='logo']")))
+            log.Write_Info("Done logging!")
         except:
             log.Write_Error("Cannot logging to HROS. Wrong password.")
+            raise Exception("Something go wrong. Stop program now.")
             
 
 class Timesheet(HRMS):
-    def __init__(self, chrome_options):
-        super().__init__(chrome_options)
-
     def timesheet(self):
-        #nav and click timesheet
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//span[contains(@class,'content')]//a[contains(@href,'sheet')]"))).click()
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH,"//div[contains(@class,'AppFooter')]"))).click()   
-        log.Write_Info("Done navigate to TimeSheet")
+        try:
+            #nav and click timesheet
+            log.Write_Info("Trying navigate to TimeSheet page")
+            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH,\
+             "//span[contains(@class,'content')]//a[contains(@href,'sheet')]"))).click()
+            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH,\
+             "//div[contains(@class,'AppFooter')]"))).click()   
+            log.Write_Info("Done navigate to TimeSheet!")
+        except:
+            log.Write_Error("Cannot navigate to TimeSheet page. Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
 
-    def submit(self, date_start: str, date_end: str, start_time: str, end_time: str, project: str, task: str, description: str):
+    def submit(self, date_start: str, date_end: str , project: str, task: str, description: str,\
+     start_time: Optional[str] = "8:00 am" , end_time: Optional[str] = "5:00 pm"):
         """date_format: MM/DD/YY, time_format: 8:00 am"""
 
+
         log.Write_Info("Try adding TimeSheet")
-        #nav and click add task
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'ant-btn')]/img"))).click()
+        try:
+            log.Write_Info("Try click on add task button.")
+            #nav and click add task
+            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'ant-btn')]/img"))).click()
+            log.Write_Info("Done!")
 
-        #enter date
-        date = WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_dates")))
-        date.send_keys(date_start)
-        end = self._driver.find_element(By.XPATH, "//input[@placeholder='End date']")
-        end.send_keys(date_end)
-        end.send_keys(Keys.ENTER)
+        except:
+            log.Write_Error("Cannot click on add task button. Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
 
-        #check time in
-        tin = WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_startTime")))
-        tin.send_keys(start_time)
-        tin.send_keys(Keys.ENTER)
+        try:
+            #enter date
+            log.Write_Info("Entering date ...")
+            date = WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_dates")))
+            date.send_keys(date_start)
+            end = self.__driver.find_element(By.XPATH, "//input[@placeholder='End date']")
+            end.send_keys(date_end)
+            end.send_keys(Keys.ENTER)
+            log.Write_Info("Done!")
+        except:
+            log.Write_Error("Cannot enter start-end date. Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
 
-        #check time out
-        tout = WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_endTime")))
-        tout.send_keys(end_time)
-        tout.send_keys(Keys.ENTER)
+        try:
+            #check time in
+            log.Write_Info("Entering check in time ...")
+            tin = WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_startTime")))
+            tin.send_keys(start_time)
+            tin.send_keys(Keys.ENTER)
+            log.Write_Info("Done!")
+        except:
+            log.Write_Error("Cannot enter check in time. Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
 
-        #enter project
-        pro = WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_projectId")))
-        pro.send_keys(project)
-        pro.send_keys(Keys.BACKSPACE)
-        pro.send_keys(Keys.ENTER)
+        try:
+            #check time out
+            log.Write_Info("Entering check out time ...")
+            tout = WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_endTime")))
+            tout.send_keys(end_time)
+            tout.send_keys(Keys.ENTER)
+            log.Write_Info("Done!")
+        except:
+            log.Write_Error("Cannot enter check out time. Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
 
-        #enter task
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_taskName"))).send_keys(task)
+        try:
+            #enter project
+            log.Write_Info("Entering project ...")
+            pro = WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_projectId")))
+            pro.send_keys(project)
+            pro.send_keys(Keys.BACKSPACE)
+            pro.send_keys(Keys.ENTER)
+            log.Write_Info("Done!")
+        except:
+            log.Write_Error("Cannot enter project. Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
 
-        #writing some description 
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_notes"))).send_keys(description)
+        try:
+            #enter task
+            log.Write_Info("Entering task ...")
+            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_taskName"))).send_keys(task)
+            log.Write_Info("Done!")
+        except:    
+            log.Write_Error("Cannot enter task. Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
 
-        #click close
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@class='ant-btn ant-btn-link']/span"))).click()
-        log.Write_Info("Your TimeSheet have been submitted")
+        try:
+            #writing some description 
+            log.Write_Info("Entering description ...")
+            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_notes"))).send_keys(description)
+            log.Write_Info("Done!")
+        except:    
+            log.Write_Error("Cannot enter description. Error detail is as below.")
+            raise Exception("Something go wrong. Stop program now.")
+
+        try:
+            #click submit
+            log.Write_Info("submitting ...")
+            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))).click()
+            log.Write_Info("Your TimeSheet have been submitted")
+        except:
+            log.Write_Error("Cannot submit (selector error). Error detail is as below.")
 
     def delete_add(self, date: str):
         """date_format: YY-MM-DD"""
         #Try click on 
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//input[@placeholder='Select date']"))).click()
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//td[@title='{}']".format(date)))).click()
+        WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//input[@placeholder='Select date']"))).click()
+        WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//td[@title='{}']".format(date)))).click()
 
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//img[3]"))).click()
-        WebDriverWait(self._driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))).click()
+        WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//img[3]"))).click()
+        WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))).click()

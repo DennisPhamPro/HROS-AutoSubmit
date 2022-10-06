@@ -23,7 +23,7 @@ class Log:
         self._log.warning(s)
 
     def Write_Error(self, s: str):
-        self._log.error(s)
+        self._log.error(s, exc_info=True)
 
     def Write_Critical(self, s: str):
         self._log.critical(s)

@@ -57,6 +57,7 @@ log_config = {
 chrome_options = Options()
 #chrome_options.add_argument("--i logging eadless")
 chrome_options.add_argument("--start-maximized")
-chrome_options.add_argument("--incognito")
+# chrome_options.add_argument("--incognito")
+# chrome_options.add_argument("--headless")
 chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
 chrome_options.page_load_strategy = 'normal' 
