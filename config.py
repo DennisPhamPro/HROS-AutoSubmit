@@ -32,7 +32,7 @@ log_config = {
             # "filters": ["above_info"],
             "class": "logging.FileHandler",
             "level": "DEBUG",
-            "filename": "",
+            "filename": "stupid_logs.log",
             # "filename": ("all_messages" + str(datetime.now().strftime('%Y_%M_%d_%H_%M_%S')) + ".log"), #file path (can use os to get true path)
             "mode": "w" #set filemode
         }, 
@@ -55,7 +55,7 @@ log_config = {
 }
 
 chrome_options = Options()
-#chrome_options.add_argument("--i logging eadless")
+#chrome_options.add_argument("--headless")
 chrome_options.add_argument("--start-maximized")
 chrome_options.add_argument("--incognito")
 chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
