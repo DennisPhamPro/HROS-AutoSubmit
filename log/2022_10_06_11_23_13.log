@@ -1,0 +1,14 @@
+06-10-2022 11:23:14 : INFO : log-submit : Write_Info : 20 : Try navagating to https://terralogic.paxanimi.ai/login...
+06-10-2022 11:23:29 : INFO : log-submit : Write_Info : 20 : Done get URL
+06-10-2022 11:23:37 : INFO : log-submit : Write_Info : 20 : Try logging to HROS by TL account.
+06-10-2022 11:23:37 : INFO : log-submit : Write_Info : 20 : Typing your email!
+06-10-2022 11:23:37 : INFO : log-submit : Write_Info : 20 : Done!
+06-10-2022 11:23:37 : INFO : log-submit : Write_Info : 20 : Typing your password!
+06-10-2022 11:23:39 : INFO : log-submit : Write_Info : 20 : Done!
+06-10-2022 11:23:48 : INFO : log-submit : Write_Info : 20 : Done logging!
+06-10-2022 11:23:48 : INFO : log-submit : Write_Info : 20 : Trying navigate to TimeSheet page
+06-10-2022 11:23:48 : ERROR : log-submit : Write_Error : 26 : Cannot navigate to TimeSheet page. Error detail is as below.
+Traceback (most recent call last):
+  File "/home/datpham/code/Project/Selenium_testing/HROS-AutoSubmit/OOP-HROS/HRMS.py", line 80, in timesheet
+    WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH,\
+AttributeError: 'Timesheet' object has no attribute '_Timesheet__driver'

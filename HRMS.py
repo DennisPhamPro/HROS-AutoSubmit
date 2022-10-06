@@ -17,13 +17,13 @@ log = Log(path)
 ########################################################
 class HRMS:
     def __init__(self, chrome_options):
-        self.__driver = webdriver.Chrome(options=chrome_options)
+        self.driver = webdriver.Chrome(options=chrome_options)
 
     def get_url(self, url : str):
         try:
             self.url = "https://"+ url
             log.Write_Info("Try navagating to {}...".format(self.url))
-            self.__driver.get(self.url)
+            self.driver.get(self.url)
             log.Write_Info("Done get URL")
         except:
             log.Write_Error("Cannot navigate to {} (maybe URL is not valid). Error detail is as below.".format(self.url))
@@ -33,7 +33,7 @@ class HRMS:
     def login(self, login_info):
         try:
             #find login button
-            WebDriverWait(self.__driver,20).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Terralogic Login']"))).click()
+            WebDriverWait(self.driver,20).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Terralogic Login']"))).click()
         except:
             log.Write_Error("Cannot click on login button.")
             raise Exception("Something go wrong. Stop program now.")
@@ -42,7 +42,7 @@ class HRMS:
             log.Write_Info("Try logging to HROS by TL account.")
             log.Write_Info("Typing your email!")    
             #enter email
-            email_input = WebDriverWait(self.__driver,20).until(EC.element_to_be_clickable((By.ID, "identifierId")))
+            email_input = WebDriverWait(self.driver,20).until(EC.element_to_be_clickable((By.ID, "identifierId")))
             email_input.send_keys(login_info[0])
             email_input.send_keys(Keys.ENTER)
             log.Write_Info("Done!")
@@ -53,7 +53,7 @@ class HRMS:
         try:
             #enter password
             log.Write_Info("Typing your password!")    
-            pw_input = WebDriverWait(self.__driver,20).until(EC.element_to_be_clickable((By.NAME, "password")))
+            pw_input = WebDriverWait(self.driver,20).until(EC.element_to_be_clickable((By.NAME, "password")))
             pw_input.send_keys(login_info[1])
             pw_input.send_keys(Keys.ENTER)
             log.Write_Info("Done!")
@@ -62,7 +62,7 @@ class HRMS:
             raise Exception("Something go wrong. Stop program now.")
 
         try:
-            WebDriverWait(self.__driver, 20).until(EC.presence_of_element_located((By.XPATH, "//img[@alt='logo']")))
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, "//img[@alt='logo']")))
             log.Write_Info("Done logging!")
         except:
             log.Write_Error("Cannot logging to HROS. Wrong password.")
@@ -70,13 +70,16 @@ class HRMS:
             
 
 class Timesheet(HRMS):
+    def __init__(self, chrome_options):
+        super().__init__(chrome_options)
+
     def timesheet(self):
         try:
             #nav and click timesheet
             log.Write_Info("Trying navigate to TimeSheet page")
-            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH,\
+            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH,\
              "//span[contains(@class,'content')]//a[contains(@href,'sheet')]"))).click()
-            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH,\
+            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH,\
              "//div[contains(@class,'AppFooter')]"))).click()   
             log.Write_Info("Done navigate to TimeSheet!")
         except:
@@ -92,7 +95,7 @@ class Timesheet(HRMS):
         try:
             log.Write_Info("Try click on add task button.")
             #nav and click add task
-            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'ant-btn')]/img"))).click()
+            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'ant-btn')]/img"))).click()
             log.Write_Info("Done!")
 
         except:
@@ -102,9 +105,9 @@ class Timesheet(HRMS):
         try:
             #enter date
             log.Write_Info("Entering date ...")
-            date = WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_dates")))
+            date = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_dates")))
             date.send_keys(date_start)
-            end = self.__driver.find_element(By.XPATH, "//input[@placeholder='End date']")
+            end = self.driver.find_element(By.XPATH, "//input[@placeholder='End date']")
             end.send_keys(date_end)
             end.send_keys(Keys.ENTER)
             log.Write_Info("Done!")
@@ -115,7 +118,7 @@ class Timesheet(HRMS):
         try:
             #check time in
             log.Write_Info("Entering check in time ...")
-            tin = WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_startTime")))
+            tin = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_startTime")))
             tin.send_keys(start_time)
             tin.send_keys(Keys.ENTER)
             log.Write_Info("Done!")
@@ -126,7 +129,7 @@ class Timesheet(HRMS):
         try:
             #check time out
             log.Write_Info("Entering check out time ...")
-            tout = WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_endTime")))
+            tout = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_endTime")))
             tout.send_keys(end_time)
             tout.send_keys(Keys.ENTER)
             log.Write_Info("Done!")
@@ -137,7 +140,7 @@ class Timesheet(HRMS):
         try:
             #enter project
             log.Write_Info("Entering project ...")
-            pro = WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_projectId")))
+            pro = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_projectId")))
             pro.send_keys(project)
             pro.send_keys(Keys.BACKSPACE)
             pro.send_keys(Keys.ENTER)
@@ -149,7 +152,7 @@ class Timesheet(HRMS):
         try:
             #enter task
             log.Write_Info("Entering task ...")
-            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_taskName"))).send_keys(task)
+            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_taskName"))).send_keys(task)
             log.Write_Info("Done!")
         except:    
             log.Write_Error("Cannot enter task. Error detail is as below.")
@@ -158,7 +161,7 @@ class Timesheet(HRMS):
         try:
             #writing some description 
             log.Write_Info("Entering description ...")
-            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_notes"))).send_keys(description)
+            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "basic_tasks_0_notes"))).send_keys(description)
             log.Write_Info("Done!")
         except:    
             log.Write_Error("Cannot enter description. Error detail is as below.")
@@ -167,16 +170,16 @@ class Timesheet(HRMS):
         try:
             #click submit
             log.Write_Info("submitting ...")
-            WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))).click()
-            log.Write_Info("Your TimeSheet have been submitted")
+            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))).click()
+            log.Write_Info("Your TimeSheet have been submitted (If not it is server fault not my code).")
         except:
             log.Write_Error("Cannot submit (selector error). Error detail is as below.")
 
     def delete_add(self, date: str):
         """date_format: YY-MM-DD"""
         #Try click on 
-        WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//input[@placeholder='Select date']"))).click()
-        WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//td[@title='{}']".format(date)))).click()
+        WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//input[@placeholder='Select date']"))).click()
+        WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//td[@title='{}']".format(date)))).click()
 
-        WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//img[3]"))).click()
-        WebDriverWait(self.__driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))).click()
+        WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//img[3]"))).click()
+        WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))).click()
