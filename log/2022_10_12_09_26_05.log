@@ -1,0 +1,27 @@
+12-10-2022 09:26:06 : INFO : log-submit : Write_Info : 20 : Try navigating to https://terralogic.paxanimi.ai/login...
+12-10-2022 09:26:18 : INFO : log-submit : Write_Info : 20 : Done get URL
+12-10-2022 09:26:28 : INFO : log-submit : Write_Info : 20 : Try logging to HROS by TL account.
+12-10-2022 09:26:28 : INFO : log-submit : Write_Info : 20 : Typing your email!
+12-10-2022 09:26:29 : INFO : log-submit : Write_Info : 20 : Done!
+12-10-2022 09:26:29 : INFO : log-submit : Write_Info : 20 : Typing your password!
+12-10-2022 09:26:30 : INFO : log-submit : Write_Info : 20 : Done!
+12-10-2022 09:26:30 : INFO : log-submit : Write_Info : 20 : Done logging!
+12-10-2022 09:26:30 : INFO : log-submit : Write_Info : 20 : Trying navigate to TimeSheet page
+12-10-2022 09:26:41 : INFO : log-submit : Write_Info : 20 : Done navigate to TimeSheet!
+12-10-2022 09:26:41 : INFO : log-submit : Write_Info : 20 : Try adding TimeSheet
+12-10-2022 09:26:41 : INFO : log-submit : Write_Info : 20 : Try click on add task button.
+12-10-2022 09:26:45 : INFO : log-submit : Write_Info : 20 : Done!
+12-10-2022 09:26:45 : INFO : log-submit : Write_Info : 20 : Entering date ...
+12-10-2022 09:26:47 : INFO : log-submit : Write_Info : 20 : Done!
+12-10-2022 09:26:47 : INFO : log-submit : Write_Info : 20 : Entering check in time ...
+12-10-2022 09:26:48 : INFO : log-submit : Write_Info : 20 : Done!
+12-10-2022 09:26:48 : INFO : log-submit : Write_Info : 20 : Entering check out time ...
+12-10-2022 09:26:48 : INFO : log-submit : Write_Info : 20 : Done!
+12-10-2022 09:26:48 : INFO : log-submit : Write_Info : 20 : Entering project ...
+12-10-2022 09:26:49 : INFO : log-submit : Write_Info : 20 : Done!
+12-10-2022 09:26:49 : INFO : log-submit : Write_Info : 20 : Entering task ...
+12-10-2022 09:26:50 : INFO : log-submit : Write_Info : 20 : Done!
+12-10-2022 09:26:50 : INFO : log-submit : Write_Info : 20 : Entering description ...
+12-10-2022 09:26:53 : INFO : log-submit : Write_Info : 20 : Done!
+12-10-2022 09:26:53 : INFO : log-submit : Write_Info : 20 : submitting ...
+12-10-2022 09:26:53 : INFO : log-submit : Write_Info : 20 : Your TimeSheet have been submitted (If not it is server fault not my code).

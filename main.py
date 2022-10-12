@@ -1,6 +1,5 @@
 import pandas as pd
 from config import chrome_options
-import time
 # import logging 
 ##################################
 from HRMS import Timesheet

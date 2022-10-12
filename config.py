@@ -40,7 +40,7 @@ log_config = {
     "formatters":{
         "std_out": {
             "format": "%(asctime)s : %(levelname)s: %(name)s : %(module)s : %(funcName)s : %(lineno)d : Log : %(message)s",
-            "datefmt":"%d-%m-%Y %I:%M:%S(%p)S" # https://www.w3schools.com/python/python_datetime.asp for date format syntax
+            "datefmt":"%d-%m-%Y %I:%M:%S(%p)" # https://www.w3schools.com/python/python_datetime.asp for date format syntax
         },
         "std_out2": {
             "format": "%(asctime)s : %(levelname)s : %(name)s : %(funcName)s : %(lineno)s : %(message)s",
