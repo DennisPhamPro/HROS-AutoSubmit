@@ -1,4 +1,3 @@
-from lib2to3.pgen2 import driver
 from typing import Optional
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
